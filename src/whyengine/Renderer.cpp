@@ -24,7 +24,7 @@ void Renderer::onInitialize()
     "                                        " \
     "void main()                             " \
     "{                                       " \
-    "  gl_FragColor = vec4(1, 0, 0, 1);      " \
+    "  gl_FragColor = vec4(1, 0, 1, 1);      " \
     "}                                       " \
     "                                        " \
     "\n#endif\n                              ";
@@ -33,16 +33,20 @@ void Renderer::onInitialize()
   shader->parse(src);
 
   shape = getCore()->context->createBuffer();
+
   shape->add(rend::vec2(0, 0.5f));
   shape->add(rend::vec2(-0.5f, -0.5f));
   shape->add(rend::vec2(0.5f, -0.5f));
+
+
 }
 
 void Renderer::onRender()
 {
+
   shader->setAttribute("a_Position", shape);
   shader->render();
-}
 
 }
 
+}
