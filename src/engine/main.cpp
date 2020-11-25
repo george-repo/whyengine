@@ -8,11 +8,10 @@ int main()
 {
   std::shared_ptr<Core> core = Core::initialize();
   
-  std::shared_ptr<Entity> pe = core->addEntity();
-  std::shared_ptr<Renderer> pr = pe->addComponent<Renderer>();
+  std::shared_ptr<Entity> playerEntity = core->addEntity();
+  std::shared_ptr<Renderer> playerRender = playerEntity->addComponent<Renderer>();
+  playerRender->getTransform()->setPosition(rend::vec3(0,0,-10));
 
-  std::shared_ptr<Entity> ee = core->addEntity();
-  std::shared_ptr<Renderer> er = ee->addComponent<Renderer>();
 
   core->start();
 
