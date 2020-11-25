@@ -17,6 +17,18 @@ namespace whyengine
   {
     friend struct ::whyengine::Core;
 
+    template <typename T>
+    std::shared_ptr<T> addComponent()
+    {
+      std::shared_ptr<T> rtn = std::make_shared<T>();
+      rtn->entity = self;
+
+      components.push_back(rtn);
+
+      rtn->onInitialize();
+      return rtn;
+    }
+
     template <typename T, typename ... Args>
     std::shared_ptr<T> addComponent(Args&& ... args)
     {
