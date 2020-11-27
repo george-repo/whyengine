@@ -1,6 +1,7 @@
 #include "Core.h"
 #include "Entity.h"
 #include "Exception.h"
+#include "Transform.h"
 
 namespace whyengine
 {

@@ -5,8 +5,9 @@
 #include "Entity.h"
 #include "Component.h"
 #include "Renderer.h"
-#include "Transform.h"
 #include "Exception.h"
+
+#include "Transform.h"
 
 #include <rend/rend.h>
 
