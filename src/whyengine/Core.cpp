@@ -2,10 +2,12 @@
 #include "Entity.h"
 #include "Exception.h"
 #include "Transform.h"
+#include "Keyboard.h"
+
+#include <iostream>
 
 namespace whyengine
 {
-
   std::shared_ptr<Core> Core::initialize()
   {
     std::shared_ptr<Core> rtn = std::make_shared<Core>();
@@ -32,7 +34,7 @@ namespace whyengine
 
     return rtn;
   }
-
+  
   std::shared_ptr<Entity> Core::addEntity()
   {
     std::shared_ptr<Entity> rtn = std::make_shared<Entity>();
@@ -47,18 +49,27 @@ namespace whyengine
   void Core::start()
   {
     bool running = true;
+    bool t = true;
     SDL_Event e = {0};
 
     while(running)
     {
       while(SDL_PollEvent(&e) != 0)
       {
+
         if(e.type == SDL_QUIT)
         {
           running = false;
         }
+        else if (e.type == SDL_KEYDOWN)
+        {
+          if (e.key.keysym.sym == fetchKey->directionUp) fetchKey->rtnKey(t, NULL, NULL, NULL);
+          if (e.key.keysym.sym == fetchKey->directionDown) fetchKey->rtnKey(NULL, t, NULL, NULL);
+          if (e.key.keysym.sym == fetchKey->directionLeft) fetchKey->rtnKey(NULL, NULL, t, NULL); 
+          if (e.key.keysym.sym == fetchKey->directionRight) fetchKey->rtnKey(NULL, NULL, NULL, t);
+        }
       }
-
+      
       for(size_t ei = 0; ei < entities.size(); ei++)
       {
         entities.at(ei)->tick();

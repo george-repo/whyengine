@@ -12,7 +12,6 @@ namespace whyengine
   struct Exception;
   struct Transform;
 
-
   struct Entity
   {
     friend struct ::whyengine::Core;
@@ -57,6 +56,7 @@ namespace whyengine
 
     std::shared_ptr<Core> getCore();
     std::shared_ptr<Transform> getTransform();
+    
 
   private:
     std::vector<std::shared_ptr<Component>> components;

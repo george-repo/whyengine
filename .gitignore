@@ -3,3 +3,5 @@ src/.vscode
 .vscode
 .vs
 out
+workspace.code-workspace
+thinkpad.txt
