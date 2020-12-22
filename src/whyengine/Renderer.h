@@ -1,3 +1,6 @@
+#ifndef WHYENINGE_RENDERER_H
+#define WHYENGINE_RENDERER_H
+
 #include "Component.h"
 
 #include <rend/rend.h>
@@ -6,16 +9,14 @@
 
 namespace whyengine
 {
+  struct Renderer : public Component
+  {
+    void onInitialize();
+    void onRender();
 
-struct Renderer : public Component
-{
-  void onInitialize();
-  void onRender();
-
-private:
-  std::shared_ptr<rend::Shader> shader;
-  std::shared_ptr<rend::Buffer> shape;
-
-};
-
+  private:
+    std::shared_ptr<rend::Shader> shader;
+    std::shared_ptr<rend::Buffer> shape;
+  };
 }
+#endif

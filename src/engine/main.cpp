@@ -1,20 +1,21 @@
 #include <whyengine/whyengine.h>
 
-#include <iostream>
-
 #define shared std::shared_ptr
 
 int main()
 {
   std::shared_ptr<Core> core = Core::initialize();
-  
-  std::shared_ptr<Entity> pe = core->addEntity();
-  std::shared_ptr<Renderer> pr = pe->addComponent<Renderer>();
+  std::shared_ptr<Entity> playerEntity = core->addEntity();
+  std::shared_ptr<Renderer> playerRender = playerEntity->addComponent<Renderer>();
+  std::shared_ptr<Keyboard> kB  = playerEntity->addComponent<Keyboard>();
+  core->fetchKey = kB;
 
-  std::shared_ptr<Entity> ee = core->addEntity();
-  std::shared_ptr<Renderer> er = ee->addComponent<Renderer>();
+  playerRender->getTransform()->setPosition(rend::vec3(-1 ,-1 , -2));
+  core->fetchKey->directionalMovement('w', 's', 'a', 'd', 0.1f);
+
+  std::cout << "Calling start" << std::endl;
 
   core->start();
-
+ 
   return 0;
 }
