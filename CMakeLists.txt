@@ -35,6 +35,8 @@ add_library(whyengine
  	src/whyengine/Entity.cpp
  	src/whyengine/Component.cpp
  	src/whyengine/Renderer.cpp
+	src/whyengine/Transform.cpp
+	src/whyengine/Keyboard.cpp
 
 	src/whyengine/Exception.cpp
 	src/whyengine/Exception.h
@@ -43,6 +45,8 @@ add_library(whyengine
  	src/whyengine/Entity.h
  	src/whyengine/Component.h
  	src/whyengine/Renderer.h
+	src/whyengine/Transform.h
+	src/whyengine/Keyboard.h
 )
 add_library(rend
   	src/rend/Exception.cpp
