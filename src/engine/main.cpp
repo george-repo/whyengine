@@ -16,6 +16,31 @@ int main()
   std::cout << "Calling start" << std::endl;
 
   core->start();
- 
+
   return 0;
 }
+
+
+/*
+Ready to start working on GEP handin, some prereqs are required...
+Todo:
+3D Model system (is it possible to rip this from OBJ loader?) 
+
+Small tasks:
+Mscript
+Keymapping system
+
+
+Assignment tasks (in order):
+1) Networking 
+2) Gamepad input
+3) 2D / 3D GUI 
+
+
+Multiplayer demo ideas:
+Smash type game (completely multiplayer)
+3D Score Vs Score (sending score over a network etc)
+
+
+Done:
+*/
