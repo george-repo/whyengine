@@ -3,6 +3,8 @@
 #include "Transform.h"
 #include <iostream>
 
+
+#include "Entity.h"
 namespace whyengine
 {
 

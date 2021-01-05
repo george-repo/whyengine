@@ -29,4 +29,17 @@ namespace whyengine
   {
     return getComponent<Transform>();
   }
+
+  void Entity::destroy()
+  {
+    if(alive)
+    {
+      alive = false;
+
+      for(size_t ci = 0; ci < components.size(); ci++)
+      {
+        components.at(ci)->destroy();
+      }
+    }
+  }
 }
