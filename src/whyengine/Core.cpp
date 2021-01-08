@@ -3,6 +3,7 @@
 #include "Exception.h"
 #include "Transform.h"
 #include "Keyboard.h"
+#include "Keymapping.h"
 
 #include <iostream>
 
@@ -31,8 +32,14 @@ namespace whyengine
     }
 
     rtn->context = rend::Context::initialize();
+    rtn->keymapping = std::make_shared<Keymap>();
 
     return rtn;
+  }
+
+  std::shared_ptr<Keymap> Core::getKeymap()
+  {
+    return keymapping;
   }
   
   std::shared_ptr<Entity> Core::addEntity()
@@ -65,11 +72,25 @@ namespace whyengine
         }
         else if (e.type == SDL_KEYDOWN)
         {
+           //insert function for this 4 way if statement for this 4dir function?
           if (e.key.keysym.sym == fetchKey->directionUp) fetchKey->rtnKey(t, NULL, NULL, NULL);
           if (e.key.keysym.sym == fetchKey->directionDown) fetchKey->rtnKey(NULL, t, NULL, NULL);
           if (e.key.keysym.sym == fetchKey->directionLeft) fetchKey->rtnKey(NULL, NULL, t, NULL); 
           if (e.key.keysym.sym == fetchKey->directionRight) fetchKey->rtnKey(NULL, NULL, NULL, t);
+
+          keymapping->keys.push_back(e.key.keysym.sym);
+          keymapping->downKey.push_back(e.key.keysym.sym);
         }
+        else if(e.type == SDL_KEYUP)
+        {
+          for(std::vector<int>::iterator it = keymapping->keys.begin(); it != keymapping->keys.end();)
+          {
+            if (*it == e.key.keysym.sym) it = keymapping->keys.erase(it);
+            else it++;
+          }
+          keymapping->upKey.push_back(e.key.keysym.sym);
+          
+        }         
       }
       
       for(size_t ei = 0; ei < entities.size(); ei++)
@@ -94,6 +115,9 @@ namespace whyengine
       }
 
       SDL_GL_SwapWindow(window);
+
+      keymapping->downKey.clear();
+      keymapping->upKey.clear();
     }
   }
 }

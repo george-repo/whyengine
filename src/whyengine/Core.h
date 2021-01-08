@@ -12,6 +12,7 @@ namespace whyengine
   struct Renderer;
   struct Entity;
   struct Keyboard;
+  struct Keymap;
   
   struct Core
   {
@@ -20,6 +21,7 @@ namespace whyengine
     static std::shared_ptr<Core> initialize();
     
     std::shared_ptr<Entity> addEntity();
+    std::shared_ptr<Keymap> getKeymap();
 
     void start();
     
@@ -31,6 +33,7 @@ namespace whyengine
     SDL_Window* window;
     SDL_GLContext glContext;
     std::shared_ptr<rend::Context> context;
+    std::shared_ptr<Keymap> keymapping;
   };
 
 }

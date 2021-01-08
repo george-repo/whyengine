@@ -7,7 +7,7 @@
 #include "Renderer.h"
 #include "Exception.h"
 #include "Keyboard.h"
-
+#include "Keymapping.h"
 #include "Transform.h"
 
 #include <rend/rend.h>

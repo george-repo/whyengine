@@ -6,19 +6,24 @@ struct test : public Component
 {
   void onTick()
   {
-    std::cout << "test" << std::endl;
-    getEntity()->destroy();
+    if(getCore()->getKeymap()->getKeymap('k'))
+    {
+      std::cout << "Test" << std::endl;
+      getEntity()->destroy();
+    }
   }
 
   void onDestroy()
   {
-    std::cout << "Destroyed" << std::endl;
+    std::cout << "Test true" << std::endl;
   }
 };
 
 int main()
 {
   std::shared_ptr<Core> core = Core::initialize();
+
+
   std::shared_ptr<Entity> playerEntity = core->addEntity();
   std::shared_ptr<Renderer> playerRender = playerEntity->addComponent<Renderer>();  
 
