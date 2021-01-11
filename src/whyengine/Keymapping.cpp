@@ -2,7 +2,7 @@
 
 namespace whyengine
 {
-  bool Keymap::getKeymap(int keymap)
+  bool Keymap::setKeymap(int keymap)
   {
     for(size_t ki = 0; ki < keys.size(); ki++)
     {

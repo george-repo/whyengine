@@ -13,6 +13,8 @@ namespace whyengine
 
         rend::mat4 getModel();
         void setPosition(rend::vec3 position);
+        void translate(float x, float y, float z);
+        void rotate(float x, float y, float z);
 
     public:
         rend::vec3 position;

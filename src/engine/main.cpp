@@ -6,10 +6,28 @@ struct test : public Component
 {
   void onTick()
   {
-    if(getCore()->getKeymap()->getKeymap('k'))
+    if(getCore()->getKeymap()->setKeymap('k'))
     {
       std::cout << "Test" << std::endl;
       getEntity()->destroy();
+    }
+
+    if(getCore()->getKeymap()->setKeymap('r'))
+    {
+      getTransform()->translate(0, 0, -0.1f);
+    }
+    else if(getCore()->getKeymap()->setKeymap('t'))
+    {
+      getTransform()->translate(0, 0, 0.1f);
+    }
+
+    if(getCore()->getKeymap()->setKeymap('y'))
+    {
+      getTransform()->rotate(0, 1, 0);
+    }
+    else if(getCore()->getKeymap()->setKeymap('u'))
+    {
+      getTransform()->rotate(0, -1, 0);
     }
   }
 

@@ -9,7 +9,7 @@ namespace whyengine
 
   struct Keymap   
   {
-    bool getKeymap(int keymap);
+    bool setKeymap(int keymap);
 
     private:
       friend struct whyengine::Core;

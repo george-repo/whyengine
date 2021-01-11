@@ -24,4 +24,16 @@ namespace whyengine
     {
         this->position = position;
     }
+    
+    void Transform::rotate(float x, float y, float z)
+    {
+        this->rotation += rend::vec3(x,y,z);
+    }
+
+    void Transform::translate(float x, float y, float z)
+    {
+        rend::vec4 fwd = getModel() * rend::vec4(x,y,z,0);
+
+        position += rend::vec3(fwd);
+    }
 }
