@@ -2,7 +2,11 @@
 #include "Core.h"
 #include "Transform.h"
 #include "Entity.h"
+#include "Camera.h"
+#include "Model.h"
 
+#include <fstream>
+#include <string>
 #include <iostream>
 
 namespace whyengine
@@ -13,43 +17,58 @@ namespace whyengine
 
     const char* src =
       "\n#ifdef VERTEX\n                       " \
-      "attribute vec2 a_Position;              " \
-      "uniform mat4 u_Projection;               " \
-      "uniform mat4 u_Model;                    " \
+      "attribute vec3 a_Position;              " \
+      "attribute vec2 a_TexCoord;              " \
+      "attribute vec3 a_Normal;                " \
+      "uniform mat4 u_Projection;              " \
+      "uniform mat4 u_View;                    " \
+      "uniform mat4 u_Model;                   " \
+      "varying vec2 v_TexCoord;                " \
       "                                        " \
       "void main()                             " \
       "{                                       " \
-      "  gl_Position = u_Projection * u_Model * vec4(a_Position, 0, 1); " \
+      "  gl_Position = u_Projection * u_View * u_Model * vec4(a_Position, 1); " \
+      "  v_TexCoord = a_TexCoord;              " \
+      "  if(a_Normal.x == 9) gl_Position.x = 7;" \
       "}                                       " \
       "                                        " \
       "\n#endif\n                              " \
       "\n#ifdef FRAGMENT\n                     " \
+      "uniform sampler2D u_Texture;            " \
+      "varying vec2 v_TexCoord;                " \
       "                                        " \
       "void main()                             " \
       "{                                       " \
-      "  gl_FragColor = vec4(1, 0, 1, 1);      " \
+      "  gl_FragColor = vec4(v_TexCoord, 0, 1);" \
       "}                                       " \
       "                                        " \
       "\n#endif\n                              ";
 
     shader = getCore()->context->createShader();
     shader->parse(src);
-
-    shape = getCore()->context->createBuffer();
-
-    shape->add(rend::vec2(0, 0.5f));
-    shape->add(rend::vec2(-0.5f, -0.5f));
-    shape->add(rend::vec2(0.5f, -0.5f));
-
   }
 
   void Renderer::onRender()
   {
-    shader->setAttribute("a_Position", shape);
-    shader->setUniform("u_Projection", rend::perspective(rend::radians(90.0f), 1.0f, 0.1f, 100.0f));
+    if(!model) return;
+    shader->setMesh(model->mesh);
 
+    shader->setUniform("u_Projection", rend::perspective(rend::radians(45.0f),
+     1.0f, 0.1f, 100.0f));
+    shader->setUniform("u_View", getCore()->getCamera()->getView());
     shader->setUniform("u_Model", getEntity()->getTransform()->getModel());
-
-    shader->render();
+    std::shared_ptr<Camera> c = getCore()->getCamera();
+    if(c->getRenderTexture())
+    {
+      shader->render(c->getRenderTexture());
+    }
+    else
+    {
+      shader->render();
+    }
+  }
+  void Renderer::setModel(std::shared_ptr<Model> model)
+  {
+    this->model = model;
   }
 }

@@ -10,6 +10,11 @@
 #include "Keymapping.h"
 #include "Transform.h"
 
+#include "Model.h"
+#include "Asset.h"
+#include "Assets.h"
+#include "Camera.h"
+
 #include <rend/rend.h>
 #include <iostream>
 

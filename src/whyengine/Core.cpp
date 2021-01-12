@@ -2,8 +2,9 @@
 #include "Entity.h"
 #include "Exception.h"
 #include "Transform.h"
-#include "Keyboard.h"
+//#include "Keyboard.h"
 #include "Keymapping.h"
+#include "Assets.h"
 
 #include <iostream>
 
@@ -34,6 +35,8 @@ namespace whyengine
     rtn->context = rend::Context::initialize();
     rtn->keymapping = std::make_shared<Keymap>();
 
+    rtn->assets = std::make_shared<Assets>();
+    rtn->assets->core = rtn;
     return rtn;
   }
 
@@ -42,6 +45,15 @@ namespace whyengine
     return keymapping;
   }
   
+  std::shared_ptr<Assets> Core::getAssets()
+  {
+    return assets;
+  }
+  
+  std::shared_ptr<Camera> Core::getCamera()
+  {
+    return currentCamera.lock();
+  }
   std::shared_ptr<Entity> Core::addEntity()
   {
     std::shared_ptr<Entity> rtn = std::make_shared<Entity>();
@@ -58,7 +70,7 @@ namespace whyengine
   void Core::start()
   {
     bool running = true;
-    bool t = true;
+    //bool t = true;
     SDL_Event e = {0};
 
     while(running)
@@ -73,10 +85,10 @@ namespace whyengine
         else if (e.type == SDL_KEYDOWN)
         {
            //insert function for this 4 way if statement for this 4dir function?
-          if (e.key.keysym.sym == fetchKey->directionUp) fetchKey->rtnKey(t, NULL, NULL, NULL);
-          if (e.key.keysym.sym == fetchKey->directionDown) fetchKey->rtnKey(NULL, t, NULL, NULL);
-          if (e.key.keysym.sym == fetchKey->directionLeft) fetchKey->rtnKey(NULL, NULL, t, NULL); 
-          if (e.key.keysym.sym == fetchKey->directionRight) fetchKey->rtnKey(NULL, NULL, NULL, t);
+          //if (e.key.keysym.sym == fetchKey->directionUp) fetchKey->rtnKey(t, NULL, NULL, NULL);
+          //if (e.key.keysym.sym == fetchKey->directionDown) fetchKey->rtnKey(NULL, t, NULL, NULL);
+          //if (e.key.keysym.sym == fetchKey->directionLeft) fetchKey->rtnKey(NULL, NULL, t, NULL); 
+          //if (e.key.keysym.sym == fetchKey->directionRight) fetchKey->rtnKey(NULL, NULL, NULL, t);
 
           keymapping->keys.push_back(e.key.keysym.sym);
           keymapping->downKey.push_back(e.key.keysym.sym);
@@ -89,7 +101,6 @@ namespace whyengine
             else it++;
           }
           keymapping->upKey.push_back(e.key.keysym.sym);
-          
         }         
       }
       
@@ -106,12 +117,20 @@ namespace whyengine
           ei--;
         }
       }
+
       glClearColor(0.39f, 0.58f, 0.93f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-      for(size_t ei = 0; ei < entities.size(); ei++)
+      for(size_t ci = 0; ci < cameras.size(); ci++)
       {
-        entities.at(ei)->render();
+        currentCamera = cameras.at(ci);
+        glClear(GL_DEPTH_BUFFER_BIT);
+
+        for(size_t ei = 0; ei < entities.size(); ei++)
+        {
+          entities.at(ei)->render();
+        }
+
       }
 
       SDL_GL_SwapWindow(window);
@@ -121,4 +140,3 @@ namespace whyengine
     }
   }
 }
-

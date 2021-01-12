@@ -38,6 +38,9 @@ add_library(whyengine
 	src/whyengine/Transform.cpp
 	src/whyengine/Keyboard.cpp
 	src/whyengine/Keymapping.cpp
+	src/whyengine/Model.cpp
+	src/whyengine/Asset.cpp
+	src/whyengine/Camera.cpp
 
 	src/whyengine/Exception.cpp
 	src/whyengine/Exception.h
@@ -49,7 +52,12 @@ add_library(whyengine
 	src/whyengine/Transform.h
 	src/whyengine/Keyboard.h
 	src/whyengine/Keymapping.h
+	src/whyengine/Model.h
+	src/whyengine/Asset.h
+	src/whyengine/Assets.h
+	src/whyengine/Camera.h
 )
+
 add_library(rend
   	src/rend/Exception.cpp
   	src/rend/Context.cpp
