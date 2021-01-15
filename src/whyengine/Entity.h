@@ -1,3 +1,14 @@
+/// \brief the main elemenets for using the COMPONENT ENTITY SYSTEM or CES starts from here
+/// \author George Jennings
+/// \version 1.5
+/// \date 15/1/21 Updated to include NCCA standards
+/// Revision History :
+/// Initial Version pre 01/12/20
+/// Added template function to take arguments 16/12/20
+/// Added everything todo with destroy function 20/12/20
+/// \todo ...
+
+
 #ifndef WHYENGINE_ENTITY_H
 #define WHYENGINE_ENTITY_H
 
@@ -14,6 +25,7 @@ namespace whyengine
 
   struct Entity
   {
+  public:
     friend struct ::whyengine::Core;
 
     template <typename T>
@@ -53,10 +65,10 @@ namespace whyengine
   
     void tick();
     void render();
+    void destroy();    
 
     std::shared_ptr<Core> getCore();
     std::shared_ptr<Transform> getTransform();
-    void destroy();    
 
   private:
     std::vector<std::shared_ptr<Component>> components;
@@ -66,4 +78,4 @@ namespace whyengine
   };
 
 }
-#endif
+#endif // _ENTITY_H_

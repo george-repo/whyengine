@@ -1,12 +1,17 @@
+///
+///  @file  Core.cpp
+///  @brief The main game loop towards the end of file as well as all the initializtion needed
+///  for the program to run. In essence a collection of all other files.
+
+#include <iostream>
+
 #include "Core.h"
 #include "Entity.h"
 #include "Exception.h"
 #include "Transform.h"
-//#include "Keyboard.h"
+#include "Keyboard.h"
 #include "Keymapping.h"
 #include "Assets.h"
-
-#include <iostream>
 
 namespace whyengine
 {
@@ -70,7 +75,7 @@ namespace whyengine
   void Core::start()
   {
     bool running = true;
-    //bool t = true;
+    bool t = true;
     SDL_Event e = {0};
 
     while(running)
@@ -84,12 +89,13 @@ namespace whyengine
         }
         else if (e.type == SDL_KEYDOWN)
         {
-           //insert function for this 4 way if statement for this 4dir function?
+          //insert function for this 4 way if statement for this 4dir function?
+         
           //if (e.key.keysym.sym == fetchKey->directionUp) fetchKey->rtnKey(t, NULL, NULL, NULL);
           //if (e.key.keysym.sym == fetchKey->directionDown) fetchKey->rtnKey(NULL, t, NULL, NULL);
           //if (e.key.keysym.sym == fetchKey->directionLeft) fetchKey->rtnKey(NULL, NULL, t, NULL); 
           //if (e.key.keysym.sym == fetchKey->directionRight) fetchKey->rtnKey(NULL, NULL, NULL, t);
-
+        
           keymapping->keys.push_back(e.key.keysym.sym);
           keymapping->downKey.push_back(e.key.keysym.sym);
         }

@@ -1,3 +1,8 @@
+///
+///  @file  Component.cpp
+///  @brief the other half of the CES. This sets out to allow the usability of structs in main.
+
+
 #include "Component.h"
 #include "Entity.h"
 

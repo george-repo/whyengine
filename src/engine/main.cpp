@@ -13,7 +13,6 @@ struct Player : public Component
 
     r->setModel(cm);
   }
-
 };
 
 struct Killer : public Component
@@ -35,6 +34,9 @@ struct Killer : public Component
 
 struct Controller : public Component
 {
+  //try use my keyboard input here?
+  //may need to add a new function to component
+  
   void onTick()
   {
     if(getCore()->getKeymap()->setKeymap('w'))
@@ -55,6 +57,7 @@ struct Controller : public Component
       getTransform()->rotate(0, -0.1f, 0);
     }
   }
+  
 };
 
 int main()
@@ -70,6 +73,7 @@ int main()
   std::shared_ptr<Entity> camera = core->addEntity();
   camera->addComponent<Camera>();
   camera->addComponent<Controller>();
+
 
   std::shared_ptr<Entity> c2 = core->addEntity();
   c2->getTransform()->setPosition(rend::vec3(0, 20, 0));
@@ -158,4 +162,31 @@ int main()
   
   return 0;
 }
+
+if(getCore()->getKeymap()->setKeymap('w'))
+    {
+      getTransform()->translate(0, 0, -0.1f);
+    }
+    else if(getCore()->getKeymap()->setKeymap('s'))
+    {
+      getTransform()->translate(0, 0, 0.1f);
+    }
+
+    if(getCore()->getKeymap()->setKeymap('a'))
+    {
+      getTransform()->rotate(0, 0.1f, 0);
+    }
+    else if(getCore()->getKeymap()->setKeymap('d'))
+    {
+      getTransform()->rotate(0, -0.1f, 0);
+    }
+
+
+
+
+
+
+
+
+
 */

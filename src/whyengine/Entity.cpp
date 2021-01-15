@@ -1,3 +1,9 @@
+///
+///  @file  Entity.cpp
+///  @brief returns a couple of shared_ptr functions to allow the entities to be usable.
+///  As well as housing the tick and render components.  
+
+
 #include "Entity.h"
 #include "Component.h"
 #include "Transform.h"

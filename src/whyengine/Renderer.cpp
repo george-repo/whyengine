@@ -1,13 +1,17 @@
+///
+///  @file Renderer.cpp
+///  @brief contains the shader program, takes from rend and camera to render a grahical scene
+
+#include <fstream>
+#include <string>
+#include <iostream>
+
 #include "Renderer.h"
 #include "Core.h"
 #include "Transform.h"
 #include "Entity.h"
 #include "Camera.h"
 #include "Model.h"
-
-#include <fstream>
-#include <string>
-#include <iostream>
 
 namespace whyengine
 {
@@ -51,13 +55,16 @@ namespace whyengine
   void Renderer::onRender()
   {
     if(!model) return;
+    
     shader->setMesh(model->mesh);
 
     shader->setUniform("u_Projection", rend::perspective(rend::radians(45.0f),
      1.0f, 0.1f, 100.0f));
     shader->setUniform("u_View", getCore()->getCamera()->getView());
     shader->setUniform("u_Model", getEntity()->getTransform()->getModel());
+
     std::shared_ptr<Camera> c = getCore()->getCamera();
+
     if(c->getRenderTexture())
     {
       shader->render(c->getRenderTexture());
@@ -67,8 +74,9 @@ namespace whyengine
       shader->render();
     }
   }
-  void Renderer::setModel(std::shared_ptr<Model> model)
+
+  void Renderer::setModel(std::shared_ptr<Model> io_model)
   {
-    this->model = model;
+    this->model = io_model;
   }
 }

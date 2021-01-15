@@ -1,3 +1,4 @@
+
 #include "Keyboard.h"
 #include "Core.h"
 #include "Transform.h"
@@ -12,7 +13,7 @@ namespace whyengine
     {
         directionUp = up; directionDown = down; 
         directionLeft = left; directionRight = right;    
-        rtnSpeed = speed;   
+        rtnSpeed = speed;
     }
 
     void Keyboard::rtnKey(bool up, bool down, bool left, bool right)
@@ -25,3 +26,5 @@ namespace whyengine
         getTransform()->position += velocity;
     }
 }
+
+/// THIS WILL BE REWORKED INTO A NEW FILE FOR PHYSICS...
