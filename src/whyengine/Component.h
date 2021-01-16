@@ -10,36 +10,38 @@
 #ifndef WHYENGINE_COMPONENT_H
 #define WHYENGINE_COMPONENT_H
 
+//  system includes
 #include <memory>
 
-namespace whyengine
+namespace whyengine // namespace
 {
+  // structs from other headers
   struct Entity;
   struct Core;
   struct Transform;
 
-  struct Component
+  struct Component  // main struct of Component files
   {
   public:
-    friend struct whyengine::Entity;
+    friend struct whyengine::Entity;  // since this engine has an CES entity and component need to encapsulate each other
 
-    virtual void onInitialize();
+    virtual void onInitialize();  // virtual function to be used in main loop
 
-    void tick();
-    virtual void onTick();
+    void tick();  // used locally in .cpp
+    virtual void onTick();  // virtual function to be used in main loop
 
     void render();
-    virtual void onRender();
+    virtual void onRender();  // virtual function to be used in main loop
 
     void destroy();
-    virtual void onDestroy();
+    virtual void onDestroy(); // virtual function to be used in main loop
 
-    std::shared_ptr<Entity> getEntity();
+    std::shared_ptr<Entity> getEntity();  // these are used in main loop too however they are ptr functions to utilize structs better
     std::shared_ptr<Core> getCore();
     std::shared_ptr<Transform> getTransform();
     
   private:
-    std::weak_ptr<Entity> entity;
+    std::weak_ptr<Entity> entity; // local value
   };
 
 }

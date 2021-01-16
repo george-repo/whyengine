@@ -6,30 +6,31 @@
 /// Initial Version pre 01/12/20
 /// \todo ...
 
-
 #ifndef WHYENGINE_ASSET_H
 #define WHYENGINE_ASSET_H
 
+// system include
 #include <string>
 #include <memory>
 
-namespace whyengine
+namespace whyengine // namespace
 {
+  // assets is a manager asset is the interface on a per asset basis
   struct Core;
   struct Assets;
 
   struct Asset
   {
-    virtual ~Asset();
-    virtual void onLoad();
+    virtual ~Asset(); //  virtual destructor
+    virtual void onLoad();  //  virtual onLoad function
 
-    std::string getPath();
-    std::shared_ptr<Core> getCore();
+    std::string getPath();  //  gets and returns the file path
+    std::shared_ptr<Core> getCore();  //  gets the core for the asset
 
   private:
-    friend struct whyengine::Assets;
+    friend struct whyengine::Assets;  //  friends with the manager
 
-    std::string path;
+    std::string path; //  local values
     std::weak_ptr<Core> core;
   };
 }

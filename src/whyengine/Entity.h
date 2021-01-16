@@ -8,40 +8,42 @@
 /// Added everything todo with destroy function 20/12/20
 /// \todo ...
 
-
 #ifndef WHYENGINE_ENTITY_H
 #define WHYENGINE_ENTITY_H
 
+// system includes
 #include <vector>
 #include <memory>
 
-namespace whyengine
+namespace whyengine // namspace 
 {
-
+  // different structs from different .h files to allow access to varibles
   struct Component;
   struct Core;
   struct Exception;
   struct Transform;
 
-  struct Entity
+  struct Entity // main struct here
   {
   public:
-    friend struct ::whyengine::Core;
+    friend struct ::whyengine::Core;  // encapsulates the core struct
 
+    // template function
     template <typename T>
-    std::shared_ptr<T> addComponent()
-    {
+    std::shared_ptr<T> addComponent() // add component function. Essentailly adds user defined components in main function
+    {                                         
       std::shared_ptr<T> rtn = std::make_shared<T>();
-      rtn->entity = self;
+      rtn->entity = self; // entity is now its self
 
-      components.push_back(rtn);
+      components.push_back(rtn); // new element added towards the back of the vector
 
       rtn->onInitialize();
-      return rtn;
+      return rtn; // returning values
     }
-
+    
+    // template function
     template <typename T, typename ... Args>
-    std::shared_ptr<T> addComponent(Args&& ... args)
+    std::shared_ptr<T> addComponent(Args&& ... args)  // the same as above but can support user defined arguments
     {
       std::shared_ptr<T> rtn = std::make_shared<T>();
       rtn->entity = self;
@@ -50,31 +52,32 @@ namespace whyengine
 
       rtn->onInitialize(std::forward<Args>(args) ...);
       return rtn;
-    }
+    } 
 
+    // template function for getting a component
     template <typename T>
     std::shared_ptr<T> getComponent()
     {
-      for(size_t i = 0; i < components.size(); i++)
+      for(size_t i = 0; i < components.size(); i++) // checking the size of the vector
       {
-        std::shared_ptr<T> rtn = std::dynamic_pointer_cast<T>(components.at(i));
-        if(!rtn) continue;
+        std::shared_ptr<T> rtn = std::dynamic_pointer_cast<T>(components.at(i));  // dynamic pointer that checks if components are in bounds
+        if(!rtn) continue; // if this does not happen then it will continue
         return rtn;
       }
     }
   
-    void tick();
-    void render();
-    void destroy();    
+    void tick();  // the tick used for onTick.
+    void render();  // the render it self
+    void destroy(); // the destroy function capable of destroying entities
 
-    std::shared_ptr<Core> getCore();
-    std::shared_ptr<Transform> getTransform();
+    std::shared_ptr<Core> getCore();  // for the user to get the core functions
+    std::shared_ptr<Transform> getTransform();  // for the user to get the transform functions
 
   private:
-    std::vector<std::shared_ptr<Component>> components;
+    std::vector<std::shared_ptr<Component>> components; // vector with shared pointer from the Components struct
     std::weak_ptr<Core> core;
     std::weak_ptr<Entity> self;
-    bool alive;
+    bool alive; // testing state of the destroy function
   };
 
 }

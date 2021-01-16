@@ -10,6 +10,11 @@
 #ifndef WHYENGINE_WHYENGINE_H
 #define WHYENGINE_WHYENGINE_H
 
+// system include
+#include <rend/rend.h>
+#include <iostream>
+
+// header include (Master header compilation of all headers)
 #include "Core.h"
 #include "Entity.h"
 #include "Component.h"
@@ -22,10 +27,6 @@
 #include "Asset.h"
 #include "Assets.h"
 #include "Camera.h"
-
-
-#include <rend/rend.h>
-#include <iostream>
 
 using namespace whyengine;
 

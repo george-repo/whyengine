@@ -9,26 +9,28 @@
 #ifndef WHYENINGE_MODEL_H
 #define WHYENGINE_MODEL_H
 
+// system includes
 #include <rend/rend.h>
 #include <string>
 #include <memory>
 
+// header includes
 #include "Asset.h"
 #include "Exception.h"
 
-namespace whyengine
+namespace whyengine // namespace
 {
-  struct Renderer;
+  struct Renderer; // struct to allow access to the renderer structs
 
-  struct Model : public Asset
+  struct Model : public Asset // inherhits from assets
   {
   public:
-    void onLoad();
+    void onLoad();  // load the model
 
   private:
-    friend struct whyengine::Renderer;
+    friend struct whyengine::Renderer;  // friend to allow access to varibles in the rendere .cpp.h files
 
-    std::shared_ptr<rend::Mesh> mesh;
+    std::shared_ptr<rend::Mesh> mesh; // local value from the rend folder
   };
 } 
 

@@ -6,20 +6,20 @@
 /// Initial Version ../12/20
 /// \todo a complete rework this to be more private AND accessible within main to cut down on complexity
 
-
 #ifndef WHYENGINE_KEYBOARD_H
 #define WHYENGINE_KEYBOARD_H
 
-#include "Component.h"
+// header includes
+#include "Component.h"  // need to make use of the Component struct
 
 namespace whyengine
 {   
-    struct Keyboard : public Component 
+    struct Keyboard : public Component  // inherits from component
     {
-        char directionUp; char directionDown; char directionLeft; char directionRight;
+        char directionUp; char directionDown; char directionLeft; char directionRight;  // values
         float rtnSpeed; 
-        void directionalMovement(char up, char down, char left, char right, float speed);
-        void rtnKey(bool up, bool down, bool left, bool right);
+        void directionalMovement(char up, char down, char left, char right, float speed); // function for user in main to pass keys and speed
+        void rtnKey(bool up, bool down, bool left, bool right); // this is to be used in the core file
     };
 }
 

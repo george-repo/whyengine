@@ -9,23 +9,24 @@
 #ifndef WHYENGINE_KEYMAPPING_H
 #define WHYENGINE_KEYMAPPING_H
 
+// system includes
 #include <vector>
 
-namespace whyengine
+namespace whyengine // namespace 
 {
-  struct Core;
+  struct Core;  // allows access to core functions and varibles
 
   struct Keymap   
   {
   public:
-    bool setKeymap(int _keymap);
+    bool setKeymap(int _keymap);  // _keymap is a input only function parameter
 
   private:
-    friend struct whyengine::Core;
+    friend struct whyengine::Core;  // friend of core
 
-    std::vector<int> keys;
-    std::vector<int> downKey;
-    std::vector<int> upKey;
+    std::vector<int> keys;    // the keymap as a collective stored in a vector
+    std::vector<int> downKey; // what keys are down
+    std::vector<int> upKey;   // what keys are up
   };
 }
 

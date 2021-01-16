@@ -9,21 +9,24 @@
 #ifndef WHYENGINE_CAMERA_H
 #define WHYENGINE_CAMERA_H
 
-#include "Component.h"
+// system include
 #include <rend/rend.h>
 
-namespace whyengine
+// header include
+#include "Component.h"
+
+namespace whyengine // namespace
 {
-  struct Camera : public Component
+  struct Camera : public Component // encapsulation and inhertience of component
   {
   public:
-    void onInitialize();
-    rend::mat4 getView();
-    std::shared_ptr<rend::RenderTexture> getRenderTexture();
-    std::shared_ptr<rend::RenderTexture> addRenderTexture();
+    void onInitialize();  // initialize the camera values
+    rend::mat4 getView(); // the mat4 is the view matrix
+    std::shared_ptr<rend::RenderTexture> getRenderTexture();  // gets the texture for render
+    std::shared_ptr<rend::RenderTexture> addRenderTexture();  // adds said texture
 
   private:
-    std::shared_ptr<rend::RenderTexture> renderTexture;
+    std::shared_ptr<rend::RenderTexture> renderTexture; // local value
   };
 }
 

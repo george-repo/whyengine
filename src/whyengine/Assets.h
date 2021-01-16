@@ -9,45 +9,48 @@
 #ifndef WHYENGINE_ASSETS_H
 #define WHYENGINE_ASSETS_H
 
+//  system includes
 #include <vector>
 #include <memory>
 #include <string>
 
+//  header includes
 #include "Asset.h"
 
-namespace whyengine
+namespace whyengine //  namespace
 {
-  struct Core;
+  struct Core;  // struct of core for accesibility
 
-  struct Assets
+  struct Assets //  main struct of assets
   {
+    // template function
     template <typename T>
     std::shared_ptr<T> load(const std::string& path)
     {
-      std::shared_ptr<T> rtn;
-
-      for(size_t i = 0; i < assets.size(); i++)
+      std::shared_ptr<T> rtn; // shared ptr
+      for(size_t i = 0; i < assets.size(); i++) // size of assets vector
       {
-        if(path == assets.at(i)->getPath())
+        if(path == assets.at(i)->getPath()) //  gets the file path
         {
           rtn = std::dynamic_pointer_cast<T>(assets.at(i));
           if(!rtn) continue;
           return rtn;
         }
       }
-      rtn = std::make_shared<T>();
-      rtn->core = core;
-      rtn->path = path;
-      rtn->onLoad();
-      assets.push_back(rtn);
 
-      return rtn;
+      rtn = std::make_shared<T>();  // made a shared ptr for template struct
+      rtn->core = core; //  core = its self now 
+      rtn->path = path; //  sets the path
+      rtn->onLoad();  //  calling onload function
+      assets.push_back(rtn);  // adds rtn to the back of assets 
+
+      return rtn; // return rtn
     }
 
-    private:
-    friend struct whyengine::Core;
+  private:
+    friend struct whyengine::Core;  // friend of core for accessiblity to some local varibles of core
 
-    std::vector<std::shared_ptr<Asset>> assets;
+    std::vector<std::shared_ptr<Asset>> assets; //  local values for .cpp
     std::weak_ptr<Core> core;
   };
 }

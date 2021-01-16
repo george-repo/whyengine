@@ -10,24 +10,26 @@
 #ifndef WHYENINGE_RENDERER_H
 #define WHYENGINE_RENDERER_H
 
+// system include
 #include <rend/rend.h>
 #include <memory>
 
+// header include
 #include "Component.h"
 
-namespace whyengine
+namespace whyengine // namspace
 {
-  struct Model;
+  struct Model; // to allow the use of the model struct
 
-  struct Renderer : public Component
+  struct Renderer : public Component // Renderer inherits from component
   {
   public:
-    void onInitialize();
-    void onRender();
-    void setModel(std::shared_ptr<Model> io_model);
+    void onInitialize(); // values are initialized here
+    void onRender();  // the start of the render
+    void setModel(std::shared_ptr<Model> io_model); // sets the model in the shader program
 
   private:
-    std::shared_ptr<rend::Shader> shader;
+    std::shared_ptr<rend::Shader> shader; // local values
     std::shared_ptr<Model> model;
   };
 }
