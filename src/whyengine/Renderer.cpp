@@ -81,5 +81,5 @@ namespace whyengine // namespace
   void Renderer::setModel(std::shared_ptr<Model> io_model)  // setting the io_model to the local model value
   {
     this->model = io_model; // setting the io_model to the local model value
-  {
+  }
 }
