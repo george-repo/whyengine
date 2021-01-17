@@ -59,6 +59,18 @@ struct Controller : public Component
   
 };
 
+struct Enemy : public Component
+{
+  void onInitialize()
+  {
+    std::shared_ptr<Renderer> r = getEntity()->addComponent<Renderer>();
+
+    std::shared_ptr<Model> em = getCore()->getAssets()->load<Model>("models/curuthers/curuthers");
+
+    r->setModel(em);
+  }
+};
+
 int main()
 {
   std::shared_ptr<Core> core = Core::initialize();
@@ -68,11 +80,13 @@ int main()
   std::shared_ptr<Player> p = pe->addComponent<Player>(1, 2, "Karsten");
   pe->addComponent<Killer>();
 
+  std::shared_ptr<Entity> ee = core->addEntity();
+  ee->getTransform()->setPosition(rend::vec3(5, 0, -10));
+  std::shared_ptr<Enemy> e = ee->addComponent<Enemy>();
 
   std::shared_ptr<Entity> camera = core->addEntity();
   camera->addComponent<Camera>();
   camera->addComponent<Controller>();
-
 
   std::shared_ptr<Entity> c2 = core->addEntity();
   c2->getTransform()->setPosition(rend::vec3(0, 20, 0));
@@ -84,8 +98,6 @@ int main()
 
   return 0;
 }
-
-
 
 /*
 #include <whyengine/whyengine.h>
@@ -179,13 +191,5 @@ if(getCore()->getKeymap()->setKeymap('w'))
     {
       getTransform()->rotate(0, -0.1f, 0);
     }
-
-
-
-
-
-
-
-
 
 */
