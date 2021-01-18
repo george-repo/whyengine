@@ -1,6 +1,8 @@
 #include <whyengine/whyengine.h>
 
 #include <iostream>
+#include <ctime>
+
 
 struct Player : public Component
 {
@@ -11,23 +13,6 @@ struct Player : public Component
     std::shared_ptr<Model> cm = getCore()->getAssets()->load<Model>("models/curuthers/curuthers");
 
     r->setModel(cm);
-  }
-};
-
-struct Killer : public Component
-{
-  void onTick()
-  {
-    if(getCore()->getKeymap()->setKeymap('k'))
-    {
-      std::cout << "Should destroy" << std::endl;
-      getEntity()->destroy();
-    }
-  }
-
-  void onDestroy()
-  {
-    std::cout << "Destroyed" << std::endl;
   }
 };
 
@@ -49,11 +34,11 @@ struct Controller : public Component
 
     if(getCore()->getKeymap()->setKeymap('a'))
     {
-      getTransform()->rotate(0, 0.1f, 0);
+      getTransform()->rotate(0.05f, 0, 0);
     }
     else if(getCore()->getKeymap()->setKeymap('d'))
     {
-      getTransform()->rotate(0, -0.1f, 0);
+      getTransform()->rotate(-0.05f, 0, 0);
     }
   }
   
@@ -64,10 +49,27 @@ struct Enemy : public Component
   void onInitialize()
   {
     std::shared_ptr<Renderer> r = getEntity()->addComponent<Renderer>();
-
     std::shared_ptr<Model> em = getCore()->getAssets()->load<Model>("models/curuthers/curuthers");
 
     r->setModel(em);
+
+    getTransform()->mass = 0.5f;
+  }
+
+  void onTick()
+  {
+    getTransform()->applyGravity();
+  }
+};
+
+struct Enviro : public Component
+{
+  void onInitialize()
+  {
+    std::shared_ptr<Renderer> r = getEntity()->addComponent<Renderer>();
+    std::shared_ptr<Model> envy = getCore()->getAssets()->load<Model>("models/Floor");
+
+    r->setModel(envy);
   }
 };
 
@@ -78,11 +80,15 @@ int main()
   std::shared_ptr<Entity> pe = core->addEntity();
   pe->getTransform()->setPosition(rend::vec3(0, 0, -10));
   std::shared_ptr<Player> p = pe->addComponent<Player>(1, 2, "Karsten");
-  pe->addComponent<Killer>();
 
   std::shared_ptr<Entity> ee = core->addEntity();
-  ee->getTransform()->setPosition(rend::vec3(5, 0, -10));
+  ee->getTransform()->setPosition(rend::vec3(5, 25, -10));
   std::shared_ptr<Enemy> e = ee->addComponent<Enemy>();
+  
+  std::shared_ptr<Entity> enviroment = core->addEntity();
+  enviroment->getTransform()->setPosition(rend::vec3(0, -5, -10));
+  enviroment->getTransform()->setScale(rend::vec3(0.1,0.1,0.1));
+  std::shared_ptr<Enviro> envy = enviroment->addComponent<Enviro>();
 
   std::shared_ptr<Entity> camera = core->addEntity();
   camera->addComponent<Camera>();
@@ -90,7 +96,8 @@ int main()
 
   std::shared_ptr<Entity> c2 = core->addEntity();
   c2->getTransform()->setPosition(rend::vec3(0, 20, 0));
-  c2->getTransform()->rotate(-90, 0, 0);
+  c2->getTransform()->rotate(-90, -90, 0);
+
   std::shared_ptr<Camera> mc = c2->addComponent<Camera>();
   mc->addRenderTexture();
 

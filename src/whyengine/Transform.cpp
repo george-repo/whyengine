@@ -3,19 +3,26 @@
 ///  @brief Create and store transform information for assigned object
 
 #include "Transform.h"  // using the header file
-
+#include "Core.h"
+#include <iostream>s
 namespace whyengine // namespace
 {
   void Transform::onInitialize()  // initialize values ( scale is being used here )
   {
-    scale = rend::vec3(1, 1, 1);  // scale from header is a vec3 now with 1, 1, 1 as its values 
+    scale = rend::vec3(1, 1, 1);  // scale from header is a vec3 now with 1, 1, 1 as its values
+    mass = 0.0f;
   }
 
   void Transform::setPosition(rend::vec3 io_position) // io_ input and output 
   {
     this->position = io_position; // assign object position to new io_position using "this->""
   }
-      
+
+  void Transform::setScale(rend::vec3 io_scale) // io_ input and output 
+  {
+    this->scale = io_scale; // assign object scale to new io_scale using "this->""
+  }
+
   void Transform::rotate(float io_x, float io_y, float io_z)
   {
     this->rotation += rend::vec3(io_x, io_y, io_z); // assign objects rotation to new rotation.
@@ -38,5 +45,22 @@ namespace whyengine // namespace
     rtn = rend::scale(rtn, scale);
 
     return rtn;
+  }
+
+  void Transform::applyGravity()
+  {    
+    //std::cout << position.y << std::endl;
+
+    if(position.y > 0.0f)
+    {
+      velocity.y += (mass / g) * getCore()->deltaTime;;
+      std::cout << velocity.y << std::endl;
+      position.y += velocity.y;
+    }
+    else if(position.y < 0.0f)
+    {
+      //position.y = 0.0f;
+      velocity = rend::vec3(0);
+    }
   }
 }

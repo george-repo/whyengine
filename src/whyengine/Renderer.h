@@ -4,7 +4,7 @@
 /// \date 15/1/21 Updated to include NCCA standards
 /// Revision History :
 /// Initial Version pre 01/12/20
-/// \todo ...
+/// \todo add texture
 
 
 #ifndef WHYENINGE_RENDERER_H

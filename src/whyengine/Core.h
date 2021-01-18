@@ -45,7 +45,11 @@ namespace whyengine // namespace
     void start(); // this is the main game loop
     
     std::shared_ptr<Keyboard> fetchKey; // used for keyboard (  maybe redundent )
-
+    
+    Uint64 NOW = SDL_GetPerformanceCounter();
+    Uint64 LAST = 0;
+    double deltaTime = 0;
+    
   private:
     // basic SDL varibles 
     SDL_Window* window;

@@ -24,7 +24,7 @@ namespace whyengine // namespace
 
     rtn->window = SDL_CreateWindow("whyengine", // this is the start of the window that we see
       SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-      800, 600, // size of window
+      1000, 1000, // size of window
       SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE); //  SDL parameters
 
     if(!rtn->window)  // if window failed then we an through exception 
@@ -80,9 +80,14 @@ namespace whyengine // namespace
     bool running = true;  // used to keep while loop open
     bool t = true;  // used to return a value to keyboard ( may be reworked )
     SDL_Event e = {0};
-
+    
     while(running)  // main game loop
     {
+
+      LAST = NOW;
+      NOW = SDL_GetPerformanceCounter();
+      deltaTime = ((NOW - LAST)*1000 / (double)SDL_GetPerformanceFrequency() );
+          
       while(SDL_PollEvent(&e) != 0) // polling sdl events
       {
         if(e.type == SDL_QUIT)  // if the event flags quit then it will  

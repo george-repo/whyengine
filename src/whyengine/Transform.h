@@ -22,6 +22,7 @@ namespace whyengine // whyengine is the namespace used throughout
   public:
     void onInitialize();  // initialize values in here
     void setPosition(rend::vec3 io_position); // io_ input and output parameter. Allows the position of object to be changed
+    void setScale(rend::vec3 io_scale); //  similar to the above function however alters the scale and not the position
     void translate(float io_x,  float io_y, float io_z);  // allows an object to be translated 
     void rotate(float io_x, float io_y, float io_z);  // allows an object to be rotated
     rend::mat4 getModel();  // fetches all transform data for a model
@@ -29,6 +30,13 @@ namespace whyengine // whyengine is the namespace used throughout
     rend::vec3 position;  // these three different vec3 store the transform data
     rend::vec3 rotation;
     rend::vec3 scale;
+
+    rend::vec3 velocity = rend::vec3(0);
+
+    float mass;
+    float g = -1200.0f;
+
+    void applyGravity();
   };
 }
 
