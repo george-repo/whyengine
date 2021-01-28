@@ -4,7 +4,8 @@
 
 #include "Transform.h"  // using the header file
 #include "Core.h"
-#include <iostream>s
+#include <iostream>
+
 namespace whyengine // namespace
 {
   void Transform::onInitialize()  // initialize values ( scale is being used here )

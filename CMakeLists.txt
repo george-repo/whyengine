@@ -42,6 +42,10 @@ add_library(whyengine
 	src/whyengine/Asset.cpp
 	src/whyengine/Camera.cpp
 
+  src/whyengine/Sound.cpp
+ 	src/whyengine/SoundSource.cpp
+  src/whyengine/Collision.cpp
+
 	src/whyengine/Exception.cpp
 	src/whyengine/Exception.h
 	
@@ -56,6 +60,14 @@ add_library(whyengine
 	src/whyengine/Asset.h
 	src/whyengine/Assets.h
 	src/whyengine/Camera.h
+
+  src/whyengine/Sound.h
+  src/whyengine/SoundSource.h
+  src/whyengine/stb_vorbisg.h
+  src/whyengine/Collision.h
+
+
+
 )
 
 add_library(rend
@@ -70,9 +82,9 @@ add_library(rend
 )
 
 if(MSVC OR MINGW)
-  	target_link_libraries(rend ${LIBGLEW} opengl32)
+  	target_link_libraries(rend ${LIBGLEW} opengl32 openal32)
 else()
-  	target_link_libraries(rend GLEW GL)
+  	target_link_libraries(rend GLEW GL AL)
 endif()
 
 target_link_libraries(whyengine rend ${LIBSDL2} ${STATIC_LIBS})

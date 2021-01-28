@@ -25,7 +25,7 @@ namespace whyengine //  namespace
   {
     // template function
     template <typename T>
-    std::shared_ptr<T> load(const std::string& path)
+    std::shared_ptr<T> load(const std::string &path)
     {
       std::shared_ptr<T> rtn; // shared ptr
       for(size_t i = 0; i < assets.size(); i++) // size of assets vector

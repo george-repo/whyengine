@@ -12,6 +12,7 @@
 // system include
 #include <string>
 #include <memory>
+#include <vector>
 
 namespace whyengine // namespace
 {

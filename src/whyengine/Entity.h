@@ -14,6 +14,7 @@
 // system includes
 #include <vector>
 #include <memory>
+#include "Collision.h"
 
 namespace whyengine // namspace 
 {
@@ -69,6 +70,11 @@ namespace whyengine // namspace
     void tick();  // the tick used for onTick.
     void render();  // the render it self
     void destroy(); // the destroy function capable of destroying entities
+
+    void collisionEnter(std::shared_ptr<Collision> state);
+    void collisionStay(std::shared_ptr<Collision> state);
+    void collisionLeave(std::shared_ptr<Collision> state);
+    
 
     std::shared_ptr<Core> getCore();  // for the user to get the core functions
     std::shared_ptr<Transform> getTransform();  // for the user to get the transform functions

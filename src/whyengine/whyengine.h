@@ -28,6 +28,11 @@
 #include "Assets.h"
 #include "Camera.h"
 
+#include "Sound.h"
+#include "SoundSource.h"
+
+#include "Collision.h"
+
 using namespace whyengine;
 
 #endif // _WHYENGINE_H_

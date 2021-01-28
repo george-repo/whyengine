@@ -5,6 +5,7 @@
 // header includes
 #include "Component.h"
 #include "Entity.h"
+#include "Collision.h"
 
 namespace whyengine // namespace
 {
@@ -23,11 +24,33 @@ namespace whyengine // namespace
     onDestroy();
   }
 
+  void Component::collisionEnter(std::shared_ptr<Collision> state)
+  {
+	  onCollisionEnter(state);
+  }
+
+  void Component::collisionStay(std::shared_ptr<Collision> state)
+  {
+	  onCollisionStay(state);
+  }
+
+  void Component::collisionLeave(std::shared_ptr<Collision> state)
+  {
+	  onCollisionLeave(state);
+  }
+
+
+
   // all the virtual functions 
   void Component::onInitialize() { }
   void Component::onTick() { }
   void Component::onRender() { }
   void Component::onDestroy() { }
+  
+  
+  void Component::onCollisionEnter(std::shared_ptr<Collision> state) { }
+  void Component::onCollisionStay(std::shared_ptr<Collision> state) { }
+  void Component::onCollisionLeave(std::shared_ptr<Collision> state) { }
 
   std::shared_ptr<Entity> Component::getEntity()  // gets the entity
   {

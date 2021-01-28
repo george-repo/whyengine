@@ -19,6 +19,7 @@ namespace whyengine // namespace
   struct Entity;
   struct Core;
   struct Transform;
+  struct Collision;
 
   struct Component  // main struct of Component files
   {
@@ -35,6 +36,15 @@ namespace whyengine // namespace
 
     void destroy();
     virtual void onDestroy(); // virtual function to be used in main loop
+
+    void collisionEnter(std::shared_ptr<Collision> state);
+    virtual void onCollisionEnter(std::shared_ptr<Collision> state);
+
+    void collisionStay(std::shared_ptr<Collision> state);
+    virtual void onCollisionStay(std::shared_ptr<Collision> state);
+
+    void collisionLeave(std::shared_ptr<Collision> state);
+    virtual void onCollisionLeave(std::shared_ptr<Collision> state);
 
     std::shared_ptr<Entity> getEntity();  // these are used in main loop too however they are ptr functions to utilize structs better
     std::shared_ptr<Core> getCore();

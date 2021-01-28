@@ -16,6 +16,9 @@
 #include <rend/rend.h>
 #include <memory>
 #include <vector>
+#include <iostream>
+#include <AL/al.h>
+#include <AL/alc.h>
 
 namespace whyengine // namespace
 {
@@ -27,13 +30,15 @@ namespace whyengine // namespace
   struct Camera;
   struct Assets;
   struct Model;
-
+  struct Collision;
+  
   struct Core // main struct of core
   {
   public:
     friend struct whyengine::Renderer;  // core has many friends to improve accessiblity and encapsulation
     friend struct whyengine::Model;
     friend struct whyengine::Camera;
+    friend struct whyengine::Collision;
 
     static std::shared_ptr<Core> initialize();  // static initialize (  think of it as the god initlize function of the engine)
     
@@ -49,11 +54,25 @@ namespace whyengine // namespace
     Uint64 NOW = SDL_GetPerformanceCounter();
     Uint64 LAST = 0;
     double deltaTime = 0;
-    
+
+    int current_id = -2147483648;
+    int GetID()
+    {
+      current_id++;
+      std::cout << "Generated New ID: " << current_id - 1 << std::endl;
+      return current_id - 1;
+    }
+      
+    std::vector<std::shared_ptr<Entity>> entities;  // vector with a shared ptr parameter
+    std::vector<std::shared_ptr<Collision>> colliderList;  // vector with a shared ptr parameter
+
+
   private:
     // basic SDL varibles 
     SDL_Window* window;
     SDL_GLContext glContext;
+    ALCdevice* device;
+    ALCcontext* alContext;
 
     std::shared_ptr<rend::Context> context; // context used from the rend library
     std::shared_ptr<Keymap> keymapping; // a local shared ptr to be used in core
@@ -62,7 +81,6 @@ namespace whyengine // namespace
     std::weak_ptr<Camera> currentCamera;  // weak_ptr so that they can break
     std::weak_ptr<Core> self;
 
-    std::vector<std::shared_ptr<Entity>> entities;  // vector with a shared ptr parameter
     std::vector<std::weak_ptr<Camera>> cameras; // vector with a weak ptr parameter
   };
 

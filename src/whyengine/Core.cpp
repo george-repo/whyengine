@@ -17,6 +17,7 @@
 
 namespace whyengine // namespace
 {
+
   std::shared_ptr<Core> Core::initialize()  // the main initialize function
   {
     std::shared_ptr<Core> rtn = std::make_shared<Core>(); // making of core
@@ -44,6 +45,31 @@ namespace whyengine // namespace
 
     rtn->assets = std::make_shared<Assets>(); // same as above but for assets
     rtn->assets->core = rtn;
+    rtn->device = alcOpenDevice(NULL);
+    rtn->alContext = alcCreateContext(rtn->device, NULL);
+
+    if(!rtn->device)
+    {
+      throw Exception("Failed to open default device");
+    }
+
+    if(!rtn->alContext)
+    {
+      alcCloseDevice(rtn->device);
+      throw Exception("Failed to create context");
+    }
+
+    if(!alcMakeContextCurrent(rtn->alContext))
+    {
+      alcDestroyContext(rtn->alContext);
+      alcCloseDevice(rtn->device);
+      throw Exception("Failed to make context current");
+    }
+
+    
+
+    //rtn->colliders = std::vector<std::shared_ptr<SphereCollider>>();
+    
     return rtn; // return rtn
   }
 
@@ -80,7 +106,7 @@ namespace whyengine // namespace
     bool running = true;  // used to keep while loop open
     bool t = true;  // used to return a value to keyboard ( may be reworked )
     SDL_Event e = {0};
-    
+
     while(running)  // main game loop
     {
 

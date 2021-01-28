@@ -49,4 +49,28 @@ namespace whyengine // namespace
       }
     }
   }
+
+  void Entity::collisionEnter(std::shared_ptr<Collision> state)
+  {
+    for (size_t ci = 0; ci < components.size(); ci++)
+    {
+        components.at(ci)->collisionEnter(state);
+    }
+  }
+
+  void Entity::collisionStay(std::shared_ptr<Collision> state)
+  {
+    for (size_t ci = 0; ci < components.size(); ci++)
+    {
+        components.at(ci)->collisionStay(state);
+    }
+  }
+
+  void Entity::collisionLeave(std::shared_ptr<Collision> state)
+  {
+    for (size_t ci = 0; ci < components.size(); ci++)
+    {
+        components.at(ci)->collisionLeave(state);
+    }
+  }
 }

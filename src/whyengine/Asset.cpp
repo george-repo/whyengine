@@ -10,7 +10,7 @@ namespace whyengine
 
   Asset::~Asset() { } // the two virtual functions (  destructor then regular function  )
   void Asset::onLoad() { }
-
+  
   std::string Asset::getPath()
   {
     return path;  // returns the path system value
