@@ -3,8 +3,6 @@
 #include <iostream>
 #include <ctime>
 
-
-
 struct Enviroment : public Component
 {
   void onInitialize()
@@ -32,18 +30,26 @@ struct Controller : public Component
     getEntity()->getComponent<Collision>()->moveEntity(velocity);
   }
 
-
-  void onTick()
+  void move()
   {
     rend::vec3 velocity = rend::vec3(0);
 
-    if(getCore()->getKeymap()->setKeymap('w') )
+    if(getCore()->getKeymap()->setKeymap('w'))
     {
       velocity += rend::vec3(0, 0, -0.1f);
     }
     else if(getCore()->getKeymap()->setKeymap('s'))
     {
       velocity += rend::vec3(0, 0, +0.1f);
+    }
+
+    if(getCore()->getKeymap()->setKeymap(SDLK_SPACE))
+    {
+      velocity += rend::vec3(0, 0.1f, 0);
+    }
+    else if(getCore()->getKeymap()->setKeymap(SDLK_LSHIFT))
+    {
+      velocity += rend::vec3(0, -0.1, 0);
     }
 
     if(getCore()->getKeymap()->setKeymap('a'))
@@ -55,12 +61,15 @@ struct Controller : public Component
       getTransform()->rotate(-0.05f, 0, 0);
     }
 
-    getTransform()->translate(velocity.x, velocity.y, velocity.z);
+    moveEntity(velocity);
+  }
 
+  void onTick()
+  {
+    move();
   }
   
 };
-
 
 struct Enviro : public Component
 {
@@ -73,25 +82,25 @@ struct Enviro : public Component
 
 int main()
 {
-  std::shared_ptr<Core> core = Core::initialize();
+  std::shared_ptr<Core> core = Core::initialize(800, 800);
 
   // player
   std::shared_ptr<Entity> pe = core->addEntity();
-  pe->getTransform()->setPosition(rend::vec3(0, 0, -10));
+  pe->getTransform()->setPosition(rend::vec3(0, 30, -10));
   pe->addComponent<Collider>();
+  pe->getComponent<Collider>()->size = rend::vec3 (1,15,1);
   pe->addComponent<Collision>();
+  pe->getTransform()->mass = 1.0f;
 
   //std::shared_ptr<SoundSource> ss = pe->addComponent<SoundSource>(core->getAssets()->load<Sound>("sounds/test"));
   std::shared_ptr<Player> p = pe->addComponent<Player>();
-    
+
   //  camera
   std::shared_ptr<Entity> camera = core->addEntity();
   camera->addComponent<Camera>();
   camera->addComponent<Controller>();
   camera->addComponent<Collider>();
   camera->addComponent<Collision>();
-  camera->getComponent<Collision>()->gravity = false;
-
 
   // world
   std::shared_ptr<Entity> world = core->addEntity();

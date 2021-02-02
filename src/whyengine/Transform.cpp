@@ -5,6 +5,7 @@
 #include "Transform.h"  // using the header file
 #include "Core.h"
 #include <iostream>
+#include "Collision.h"
 
 namespace whyengine // namespace
 {
@@ -12,6 +13,7 @@ namespace whyengine // namespace
   {
     scale = rend::vec3(1, 1, 1);  // scale from header is a vec3 now with 1, 1, 1 as its values
     mass = 0.0f;
+    gravity = true;
   }
 
   void Transform::setPosition(rend::vec3 io_position) // io_ input and output 
@@ -48,20 +50,20 @@ namespace whyengine // namespace
     return rtn;
   }
 
-  void Transform::applyGravity()
-  {    
-    //std::cout << position.y << std::endl;
-
-    if(position.y > 0.0f)
+  void Transform::onTick()
+  {
+    if(gravity)
     {
-      velocity.y += (mass / g) * getCore()->deltaTime;;
-      std::cout << velocity.y << std::endl;
-      position.y += velocity.y;
-    }
-    else if(position.y < 0.0f)
-    {
-      //position.y = 0.0f;
-      velocity = rend::vec3(0);
+      if(position.y > 0.01)
+      {
+        velocity.y = (mass / g) * getCore()->deltaTime;
+        std::cout << velocity.y << std::endl;
+        position.y += velocity.y;
+      }
+      else
+      {
+        velocity.y = 0;
+      }
     }
   }
 }

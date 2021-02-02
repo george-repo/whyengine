@@ -18,14 +18,14 @@
 namespace whyengine // namespace
 {
 
-  std::shared_ptr<Core> Core::initialize()  // the main initialize function
+  std::shared_ptr<Core> Core::initialize(int windowWidth, int windowHeight)  // the main initialize function
   {
     std::shared_ptr<Core> rtn = std::make_shared<Core>(); // making of core
     rtn->self = rtn;  // making rtn = its self
 
     rtn->window = SDL_CreateWindow("whyengine", // this is the start of the window that we see
       SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-      1000, 1000, // size of window
+      windowWidth, windowHeight, // size of window
       SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE); //  SDL parameters
 
     if(!rtn->window)  // if window failed then we an through exception 

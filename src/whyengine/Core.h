@@ -40,7 +40,7 @@ namespace whyengine // namespace
     friend struct whyengine::Camera;
     friend struct whyengine::Collision;
 
-    static std::shared_ptr<Core> initialize();  // static initialize (  think of it as the god initlize function of the engine)
+    static std::shared_ptr<Core> initialize(int windowWidth, int windowHeight);  // static initialize (  think of it as the god initlize function of the engine)
     
     std::shared_ptr<Entity> addEntity();  // basic functions that allow the differnt getting or adding of different components
     std::shared_ptr<Keymap> getKeymap();  
@@ -55,7 +55,7 @@ namespace whyengine // namespace
     Uint64 LAST = 0;
     double deltaTime = 0;
 
-    int current_id = -2147483648;
+    int current_id = -100;
     int GetID()
     {
       current_id++;

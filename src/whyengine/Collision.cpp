@@ -8,6 +8,12 @@
 
 namespace whyengine
 {
+  void Collider::onInitialize()
+  {
+    size = rend::vec3(size);
+    center = rend::vec3(0);
+  }
+
 	void Collision::onInitialize()
 	{
 		std::shared_ptr<Collision> self = getEntity()->getComponent<Collision>();
@@ -22,30 +28,7 @@ namespace whyengine
 
 		collider = getEntity()->getComponent<Collider>();
 
-		velocity = rend::vec3(0);
-
-		gravity = true;
-
 		collisions = std::vector<std::shared_ptr<Collision>>();
-	}
-
-	void Collision::onTick()
-	{
-		if (gravity)
-		{
-			float bottom = getEntity()->getTransform()->position.y - (getEntity()->getTransform()->position.y + collider->center.y - (collider->size.y / 2));
-			float maxVel = -10.0f;
-
-			if(!checkColliders(rend::vec3(0, -0.01, 0)))
-			{
-				velocity.y = std::max(velocity.y + -9.81f / 500, std::min(maxVel, -bottom));
-				moveEntity(velocity);
-      }
-      else
-      {
-        velocity.y = 0;
-      }
-		}
 	}
 
 	void Collision::moveEntity(rend::vec3 position)
@@ -60,30 +43,44 @@ namespace whyengine
 	{
 		bool collision = false;
 
-		rend::vec3 m_position = getEntity()->getTransform()->position + position + collider->center;
+		rend::vec3 checkPos = getEntity()->getTransform()->position + position + collider->center;
 
-		rend::vec2 m_xrange = rend::vec2(m_position.x - (collider->size.x / 2), m_position.x + (collider->size.x / 2));
-		rend::vec2 m_yrange = rend::vec2(m_position.y - (collider->size.y / 2), m_position.y + (collider->size.y / 2));
-		rend::vec2 m_zrange = rend::vec2(m_position.z - (collider->size.z / 2), m_position.z + (collider->size.z / 2));
+    //  the next set of vector 2 is essentailly to get the plane of a axis that forms the cubes
+		rend::vec2 colliderRangeX = rend::vec2(checkPos.x - (collider->size.x / 2), 
+                                     checkPos.x + (collider->size.x / 2));
 
-		for (int i = 0; i < getCore()->colliderList.size(); i++)
+		rend::vec2 colliderRangeY = rend::vec2(checkPos.y - (collider->size.y / 2), 
+                                     checkPos.y + (collider->size.y / 2));
+
+		rend::vec2 colliderRangeZ = rend::vec2(checkPos.z - (collider->size.z / 2), 
+                                     checkPos.z + (collider->size.z / 2));
+    
+		for (int i = 0; i < getCore()->colliderList.size(); i++)    //  this cycles through the list of colliders
 		{
 			std::shared_ptr<Collision> rb = getCore()->colliderList[i];
 
-			if (rb->id != id)
+			if (rb->id != id) //  this check is essentially to see if an AABB is colliding with its self. Does this by assigning an ID in Core.
 			{
 				rend::vec3 o_position = rb->getTransform()->position + rb->collider->center;
 
-				rend::vec2 o_xrange = rend::vec2(o_position.x - (rb->collider->size.x / 2), o_position.x + (rb->collider->size.x / 2));
-				rend::vec2 o_yrange = rend::vec2(o_position.y - (rb->collider->size.y / 2), o_position.y + (rb->collider->size.y / 2));
-				rend::vec2 o_zrange = rend::vec2(o_position.z - (rb->collider->size.z / 2), o_position.z + (rb->collider->size.z / 2));
+        //  similar to the old set of vec 2 just for a new position.
+				rend::vec2 _ColliderRangeX = rend::vec2(o_position.x - (rb->collider->size.x / 2), 
+                                         o_position.x + (rb->collider->size.x / 2));
 
-				if (m_xrange.y > o_xrange.x && m_xrange.x < o_xrange.y && m_yrange.y > o_yrange.x && m_yrange.x < o_yrange.y && m_zrange.y > o_zrange.x && m_zrange.x < o_zrange.y)
+				rend::vec2 _ColliderRangeY = rend::vec2(o_position.y - (rb->collider->size.y / 2), 
+                                         o_position.y + (rb->collider->size.y / 2));
+
+				rend::vec2 _ColliderRangeZ = rend::vec2(o_position.z - (rb->collider->size.z / 2), 
+                                         o_position.z + (rb->collider->size.z / 2));
+
+				if (colliderRangeX.y > _ColliderRangeX.x && colliderRangeX.x < _ColliderRangeX.y 
+         && colliderRangeY.y > _ColliderRangeY.x && colliderRangeY.x < _ColliderRangeY.y 
+         && colliderRangeZ.y > _ColliderRangeZ.x && colliderRangeZ.x < _ColliderRangeZ.y) //  checks the bounds of the AABB 
 				{
 					collision = true;
 
 					bool check = false;
-
+          //  stores the lists of collisisons to see what state they are in
 					if (!std::count(collisions.begin(), collisions.end(), rb))
 					{
 						getEntity()->collisionEnter(rb);
@@ -98,7 +95,7 @@ namespace whyengine
 				}
 				else
         {
-					if (std::count(collisions.begin(), collisions.end(), rb))
+					  if (std::count(collisions.begin(), collisions.end(), rb))
 					{
 						getEntity()->collisionLeave(rb);
 						collisions.erase(collisions.begin() + i);
