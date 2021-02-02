@@ -16,14 +16,15 @@ namespace whyengine // namespace
 
   void Component::render()
   {
-    onRender();
+    onRender(); //  RENDERS EVERYTHING
   }
 
   void Component::destroy()
   {
-    onDestroy();
+    onDestroy();  //  DESTROYS THE ENTITY
   }
 
+  //  the following series is responsible for the state of a collision
   void Component::collisionEnter(std::shared_ptr<Collision> state)
   {
 	  onCollisionEnter(state);
@@ -47,7 +48,7 @@ namespace whyengine // namespace
   void Component::onRender() { }
   void Component::onDestroy() { }
   
-  
+  //  responsible for states of a collision
   void Component::onCollisionEnter(std::shared_ptr<Collision> state) { }
   void Component::onCollisionStay(std::shared_ptr<Collision> state) { }
   void Component::onCollisionLeave(std::shared_ptr<Collision> state) { }

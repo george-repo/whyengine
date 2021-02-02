@@ -17,7 +17,7 @@
 
 namespace whyengine // namespace
 {
-
+  //  passes in two values for the width and the height
   std::shared_ptr<Core> Core::initialize(int windowWidth, int windowHeight)  // the main initialize function
   {
     std::shared_ptr<Core> rtn = std::make_shared<Core>(); // making of core
@@ -45,9 +45,10 @@ namespace whyengine // namespace
 
     rtn->assets = std::make_shared<Assets>(); // same as above but for assets
     rtn->assets->core = rtn;
-    rtn->device = alcOpenDevice(NULL);
+    rtn->device = alcOpenDevice(NULL);  //  these are todo 
     rtn->alContext = alcCreateContext(rtn->device, NULL);
 
+    //  exceptions for audio issues 
     if(!rtn->device)
     {
       throw Exception("Failed to open default device");
@@ -65,10 +66,6 @@ namespace whyengine // namespace
       alcCloseDevice(rtn->device);
       throw Exception("Failed to make context current");
     }
-
-    
-
-    //rtn->colliders = std::vector<std::shared_ptr<SphereCollider>>();
     
     return rtn; // return rtn
   }

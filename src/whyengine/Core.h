@@ -6,6 +6,7 @@
 /// Initial Version pre 01/12/20
 /// Added keyboard sections in main loop 22/12/20
 /// commented out keyboard sections in main loop 2/01/20
+/// added audio initialize  2/02/20
 /// \todo rework the Keyboard to not be so inaccessible
 
 #ifndef WHYENGINE_CORE_H
@@ -51,17 +52,14 @@ namespace whyengine // namespace
     
     std::shared_ptr<Keyboard> fetchKey; // used for keyboard (  maybe redundent )
     
+    //  added a delta time very simplier using SDL feature
     Uint64 NOW = SDL_GetPerformanceCounter();
     Uint64 LAST = 0;
     double deltaTime = 0;
 
+    //  used for the IDs of entity
     int current_id = -100;
-    int GetID()
-    {
-      current_id++;
-      std::cout << "Generated New ID: " << current_id - 1 << std::endl;
-      return current_id - 1;
-    }
+    int GetID() { current_id++; return current_id - 1; }
       
     std::vector<std::shared_ptr<Entity>> entities;  // vector with a shared ptr parameter
     std::vector<std::shared_ptr<Collision>> colliderList;  // vector with a shared ptr parameter
@@ -71,6 +69,8 @@ namespace whyengine // namespace
     // basic SDL varibles 
     SDL_Window* window;
     SDL_GLContext glContext;
+
+    // basic openAL varibles
     ALCdevice* device;
     ALCcontext* alContext;
 

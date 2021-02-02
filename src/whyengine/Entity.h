@@ -11,9 +11,11 @@
 #ifndef WHYENGINE_ENTITY_H
 #define WHYENGINE_ENTITY_H
 
-// system includes
+//  system includes
 #include <vector>
 #include <memory>
+
+//  header includes
 #include "Collision.h"
 
 namespace whyengine // namspace 
@@ -71,6 +73,7 @@ namespace whyengine // namspace
     void render();  // the render it self
     void destroy(); // the destroy function capable of destroying entities
 
+    //  each for there own collisions state
     void collisionEnter(std::shared_ptr<Collision> state);
     void collisionStay(std::shared_ptr<Collision> state);
     void collisionLeave(std::shared_ptr<Collision> state);

@@ -6,6 +6,7 @@
 #include "Core.h"
 #include <iostream>
 #include "Collision.h"
+#include "Entity.h"
 
 namespace whyengine // namespace
 {
@@ -57,7 +58,6 @@ namespace whyengine // namespace
       if(position.y > 0.01)
       {
         velocity.y = (mass / g) * getCore()->deltaTime;
-        std::cout << velocity.y << std::endl;
         position.y += velocity.y;
       }
       else

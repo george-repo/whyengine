@@ -38,7 +38,7 @@ namespace whyengine // namespace
     virtual void onDestroy(); // virtual function to be used in main loop
 
     void collisionEnter(std::shared_ptr<Collision> state);
-    virtual void onCollisionEnter(std::shared_ptr<Collision> state);
+    virtual void onCollisionEnter(std::shared_ptr<Collision> state);  //  responbile for state of collision
 
     void collisionStay(std::shared_ptr<Collision> state);
     virtual void onCollisionStay(std::shared_ptr<Collision> state);

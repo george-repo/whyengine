@@ -1,12 +1,18 @@
+///
+///  @file  Collision.cpp
+///  @brief the main body responsible for collisions
+
+//  system includes
+#include <iostream>
+#include <algorithm>
+
+//  header includes
 #include "Collision.h"
 #include "Core.h"
 #include "Entity.h"
 #include "Transform.h"
 
-#include <iostream>
-#include <algorithm>
-
-namespace whyengine
+namespace whyengine //  namespace
 {
   void Collider::onInitialize()
   {
@@ -14,23 +20,22 @@ namespace whyengine
     center = rend::vec3(0);
   }
 
+  //  initialize function
 	void Collision::onInitialize()
 	{
-		std::shared_ptr<Collision> self = getEntity()->getComponent<Collision>();
+		std::shared_ptr<Collision> self = getEntity()->getComponent<Collision>(); //  adding its self to the collider list
 		getCore()->colliderList.push_back(self);
 
-		std::shared_ptr<Collider> tCollider = std::make_shared<Collider>();
+		std::shared_ptr<Collider> tCollider = std::make_shared<Collider>(); //  adding the collider values
     
-		std::cout << "Size: " << tCollider->size.x << ", " << tCollider->size.y << ", " << tCollider->size.z << std::endl;
-		std::cout << "Center: " << tCollider->center.x << ", " << tCollider->center.y << ", " << tCollider->center.z << std::endl;
+		id = getCore()->GetID();  //  gets the id of this collider so that it can be used later to make sure its not colliding against its self
 
-		id = getCore()->GetID();
+		collider = getEntity()->getComponent<Collider>(); //  getting the collider and passing it throught the local varible
 
-		collider = getEntity()->getComponent<Collider>();
-
-		collisions = std::vector<std::shared_ptr<Collision>>();
+		collisions = std::vector<std::shared_ptr<Collision>>(); //  a method to store the state of collisions
 	}
 
+  //  this is similar to the translate function however considers collisions
 	void Collision::moveEntity(rend::vec3 position)
 	{
 		if (!checkColliders(position))
@@ -38,7 +43,8 @@ namespace whyengine
 			getEntity()->getTransform()->position += position;
 		}
 	}
-
+  
+  //  this checks on the state of collisions
 	bool Collision::checkColliders(rend::vec3 position)
 	{
 		bool collision = false;
@@ -47,13 +53,13 @@ namespace whyengine
 
     //  the next set of vector 2 is essentailly to get the plane of a axis that forms the cubes
 		rend::vec2 colliderRangeX = rend::vec2(checkPos.x - (collider->size.x / 2), 
-                                     checkPos.x + (collider->size.x / 2));
+                                           checkPos.x + (collider->size.x / 2));
 
 		rend::vec2 colliderRangeY = rend::vec2(checkPos.y - (collider->size.y / 2), 
-                                     checkPos.y + (collider->size.y / 2));
+                                           checkPos.y + (collider->size.y / 2));
 
 		rend::vec2 colliderRangeZ = rend::vec2(checkPos.z - (collider->size.z / 2), 
-                                     checkPos.z + (collider->size.z / 2));
+                                           checkPos.z + (collider->size.z / 2));
     
 		for (int i = 0; i < getCore()->colliderList.size(); i++)    //  this cycles through the list of colliders
 		{
@@ -87,7 +93,7 @@ namespace whyengine
 						collisions.push_back(rb);
 						check = true;
 					}
-
+          //  state of collisons
 					if (!check)
 					{
 						getEntity()->collisionStay(rb);

@@ -23,6 +23,16 @@ struct Player : public Component
   }
 };
 
+struct Enemy : public Component
+{
+  void onInitialize()
+  {
+    std::shared_ptr<Renderer> r = getEntity()->addComponent<Renderer>();
+    
+    r->setModel(getCore()->getAssets()->load<Model>("models/two"));
+  }
+};
+
 struct Controller : public Component
 {
   void moveEntity(rend::vec3 velocity)
@@ -54,11 +64,11 @@ struct Controller : public Component
 
     if(getCore()->getKeymap()->setKeymap('a'))
     {
-      getTransform()->rotate(0.05f, 0, 0);
+      velocity += rend::vec3(-0.1f, 0, 0);
     }
     else if(getCore()->getKeymap()->setKeymap('d'))
     {
-      getTransform()->rotate(-0.05f, 0, 0);
+      velocity += rend::vec3(+0.1f, 0, 0);
     }
 
     moveEntity(velocity);
@@ -91,9 +101,16 @@ int main()
   pe->getComponent<Collider>()->size = rend::vec3 (1,15,1);
   pe->addComponent<Collision>();
   pe->getTransform()->mass = 1.0f;
-
-  //std::shared_ptr<SoundSource> ss = pe->addComponent<SoundSource>(core->getAssets()->load<Sound>("sounds/test"));
   std::shared_ptr<Player> p = pe->addComponent<Player>();
+
+  // Second model
+  std::shared_ptr<Entity> ee = core->addEntity();
+  ee->getTransform()->setPosition(rend::vec3(5, 0, -10));
+  ee->addComponent<Collider>();
+  ee->getComponent<Collider>()->size = rend::vec3 (1,1,1);
+  ee->addComponent<Collision>();
+  ee->getTransform()->setScale(rend::vec3(0.04, 0.04, 0.04));
+  std::shared_ptr<Enemy> e = ee->addComponent<Enemy>();
 
   //  camera
   std::shared_ptr<Entity> camera = core->addEntity();
@@ -104,11 +121,22 @@ int main()
 
   // world
   std::shared_ptr<Entity> world = core->addEntity();
-  world->getTransform()->setPosition(rend::vec3(0, -5, -10));
-  world->getTransform()->setScale(rend::vec3(0.1,0.1,0.1));
+  world->getTransform()->setPosition(rend::vec3(0, -10, -10));
+  world->getTransform()->setScale(rend::vec3(0.1, 0.1, 0.1));
   std::shared_ptr<Enviroment> envy = world->addComponent<Enviroment>();
   
   core->start();
 
   return 0;
 }
+
+/*
+TODO:
+Just add a simple demo showing;
+Rotation  
+Collision
+Camera movement
+On Collision (moving an object after a button has been hit etc)
+Destroy object on collision
+On tick move a object into a random position
+*/

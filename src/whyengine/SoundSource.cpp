@@ -1,7 +1,13 @@
+///
+///  @file  SoundSource.cpp
+///  @brief Manages the sounds throughout the scene
+
+//  header includes
 #include "SoundSource.h"
 
 namespace whyengine
 {
+  //  initlize the values
   void SoundSource::onInitialize(std::shared_ptr<Sound> sound)
   {
     alGenBuffers(1, &sid);
