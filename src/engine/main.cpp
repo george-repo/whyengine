@@ -17,7 +17,7 @@ struct Player : public Component
   void onInitialize()
   {
     std::shared_ptr<Renderer> r = getEntity()->addComponent<Renderer>();
-    //std::shared_ptr<SoundSource> ss = getEntity()->addComponent<SoundSource>(getCore()->getAssets()->load<Sound>("sounds/yeah")); 
+    std::shared_ptr<SoundSource> ss = getEntity()->addComponent<SoundSource>(getCore()->getAssets()->load<Sound>("sounds/yeah")); 
     
     r->setModel(getCore()->getAssets()->load<Model>("models/curuthers/curuthers"));
   }
