@@ -17,19 +17,29 @@ struct Player : public Component
   void onInitialize()
   {
     std::shared_ptr<Renderer> r = getEntity()->addComponent<Renderer>();
-    std::shared_ptr<SoundSource> ss = getEntity()->addComponent<SoundSource>(getCore()->getAssets()->load<Sound>("sounds/yeah")); 
+    //std::shared_ptr<SoundSource> ss = getEntity()->addComponent<SoundSource>(getCore()->getAssets()->load<Sound>("sounds/yeah")); 
     
     r->setModel(getCore()->getAssets()->load<Model>("models/curuthers/curuthers"));
   }
 };
 
-struct Enemy : public Component
+struct Test : public Component
 {
   void onInitialize()
   {
     std::shared_ptr<Renderer> r = getEntity()->addComponent<Renderer>();
     
     r->setModel(getCore()->getAssets()->load<Model>("models/two"));
+  }
+
+  void onTick()
+  {
+    getTransform()->rotate(0.1, 0, 0);
+
+    if(getCore()->getKeymap()->setKeymap('k'))
+    {
+      getEntity()->destroy();
+    }
   }
 };
 
@@ -44,7 +54,7 @@ struct Controller : public Component
   {
     rend::vec3 velocity = rend::vec3(0);
 
-    if(getCore()->getKeymap()->setKeymap('w'))
+    if(getCore()->getKeymap()->setKeymap('w'))  //  back and forth
     {
       velocity += rend::vec3(0, 0, -0.1f);
     }
@@ -53,7 +63,7 @@ struct Controller : public Component
       velocity += rend::vec3(0, 0, +0.1f);
     }
 
-    if(getCore()->getKeymap()->setKeymap(SDLK_SPACE))
+    if(getCore()->getKeymap()->setKeymap(SDLK_SPACE)) //  up and down
     {
       velocity += rend::vec3(0, 0.1f, 0);
     }
@@ -62,7 +72,7 @@ struct Controller : public Component
       velocity += rend::vec3(0, -0.1, 0);
     }
 
-    if(getCore()->getKeymap()->setKeymap('a'))
+    if(getCore()->getKeymap()->setKeymap('a'))  //  left and right
     {
       velocity += rend::vec3(-0.1f, 0, 0);
     }
@@ -70,15 +80,23 @@ struct Controller : public Component
     {
       velocity += rend::vec3(+0.1f, 0, 0);
     }
-
+    
     moveEntity(velocity);
   }
 
   void onTick()
   {
     move();
+
+    if(getCore()->getKeymap()->setKeymap('q'))  //  left and right
+    {
+      getTransform()->rotate(0, +0.1, 0);
+    }
+    else if(getCore()->getKeymap()->setKeymap('e'))
+    {
+      getTransform()->rotate(0, -0.1, 0);
+    }
   }
-  
 };
 
 struct Enviro : public Component
@@ -94,7 +112,7 @@ int main()
 {
   std::shared_ptr<Core> core = Core::initialize(800, 800);
 
-  // player
+  //  player
   std::shared_ptr<Entity> pe = core->addEntity();
   pe->getTransform()->setPosition(rend::vec3(0, 30, -10));
   pe->addComponent<Collider>();
@@ -103,14 +121,11 @@ int main()
   pe->getTransform()->mass = 1.0f;
   std::shared_ptr<Player> p = pe->addComponent<Player>();
 
-  // Second model
-  std::shared_ptr<Entity> ee = core->addEntity();
-  ee->getTransform()->setPosition(rend::vec3(5, 0, -10));
-  ee->addComponent<Collider>();
-  ee->getComponent<Collider>()->size = rend::vec3 (1,1,1);
-  ee->addComponent<Collision>();
-  ee->getTransform()->setScale(rend::vec3(0.04, 0.04, 0.04));
-  std::shared_ptr<Enemy> e = ee->addComponent<Enemy>();
+  //  Demo having a second model
+  std::shared_ptr<Entity> among = core->addEntity();
+  among->getTransform()->setPosition(rend::vec3(10, 0, -10));
+  among->getTransform()->setScale(rend::vec3(0.03, 0.03, 0.03));
+  std::shared_ptr<Test> e = among->addComponent<Test>();
 
   //  camera
   std::shared_ptr<Entity> camera = core->addEntity();
@@ -133,10 +148,6 @@ int main()
 /*
 TODO:
 Just add a simple demo showing;
-Rotation  
-Collision
-Camera movement
-On Collision (moving an object after a button has been hit etc)
-Destroy object on collision
-On tick move a object into a random position
+Destroy object on button press
+  (destroy the larger cube from the above todo task)
 */
