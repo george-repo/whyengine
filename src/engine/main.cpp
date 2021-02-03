@@ -144,10 +144,3 @@ int main()
 
   return 0;
 }
-
-/*
-TODO:
-Just add a simple demo showing;
-Destroy object on button press
-  (destroy the larger cube from the above todo task)
-*/
